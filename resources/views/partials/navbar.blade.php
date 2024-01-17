@@ -46,7 +46,7 @@
     <ul class="menu-inner py-1">
         <!-- Dashboards -->
         <li class="menu-item">
-            <a href="javascript:void(0);" class="menu-link">
+            <a href="/dashboard" class="menu-link">
                 <i class="menu-icon tf-icons mdi mdi-home-outline"></i>
                 <div data-i18n="Dashboards">Dashboards</div>
             </a>
@@ -615,7 +615,7 @@
                             <div class="dropdown-divider my-1"></div>
                         </li>
                         <li>
-                            <a class="dropdown-item" href="javascript:void(0);">
+                            <a class="dropdown-item" href="/logout">
                                 <i class="mdi mdi-power me-1 mdi-20px"></i>
                                 <span class="align-middle">Log Out</span>
                             </a>

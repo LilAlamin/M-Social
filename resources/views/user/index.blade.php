@@ -1,5 +1,5 @@
-@extends('layouts.admin')
-@section('admin')
+@extends('layouts.user')
+@section('user')
     <!-- Content wrapper -->
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css">
 

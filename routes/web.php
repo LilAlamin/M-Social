@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\adminController;
+use App\Http\Controllers\userController;
 use App\Http\Controllers\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -17,10 +17,12 @@ use Illuminate\Support\Facades\Route;
 // Login
 Route::get('/',[Auth::class,'login']);
 Route::post('/',[Auth::class,'masuk']);
+Route::get('/logout',[Auth::class,'logout']);
 Route::get('/daftar',[Auth::class,'registerForm']);
 Route::post('/daftar',[Auth::class,'register'])->name('daftar');
-Route::get('/admin',[adminController::class,'index']);
 Route::get('/daftar', function () {
     return view('auth/register');
 });
 
+// Users
+Route::get('/dashboard',[userController::class,'index']);

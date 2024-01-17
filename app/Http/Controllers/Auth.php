@@ -31,15 +31,16 @@ class Auth extends Controller
             
     
             if ($data->user_type == 'admin') {
-                return redirect('/admin');
-            } elseif ($data->user_type == 'user') {
                 return redirect('/daftar');
+            } elseif ($data->user_type == 'user') {
+                return redirect('/dashboard');
             } else {
-                return redirect('/');
+                return redirect('/')->with('gagal','Akun Anda Tidak Terdaftar');
             }
         } else {
-            return redirect('/login')->withErrors(['error' => 'Invalid Login Details']);
+            return redirect('/')->with('gagal', 'Akun Anda Tidak Terdaftar');
         }
+        
     }
     
 
@@ -69,5 +70,10 @@ class Auth extends Controller
 
         // Redirect to the dashboard or any other desired page
         return redirect('/')->with('success', 'Registration successful!');
+    }
+
+    public function logout(Request $req){
+        $req->session()->flush('user_id');
+        return redirect('/');
     }
 }

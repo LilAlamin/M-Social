@@ -58,7 +58,7 @@
 
         
 
-        @yield('admin')
+        @yield('user')
       
       </div>
 
