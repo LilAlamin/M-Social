@@ -1,7 +1,7 @@
 @extends('layouts.user')
 @section('user')
     <!-- Content wrapper -->
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css">
+
 
     <div class="content-wrapper">
         <!-- Content -->
@@ -27,7 +27,7 @@
                                     Selamat Datang
                                 @endif
                             </h4>
-                        
+
                         </div>
 
                         {{-- <img src="../assets/img/icons/misc/triangle-light.png"
@@ -59,7 +59,7 @@
                                     </div>
                                 </div> --}}
                             </div>
-                            <p class="mt-3"><span class="fw-medium">Stastitik Pengaduan Anda</p>
+                            <p class="mt-3"><span class="fw-medium">Statistik Pengaduan Anda</p>
                         </div>
                         <div class="card-body">
                             <div class="row g-3">
@@ -633,23 +633,50 @@
 
                 <!-- Data Tables -->
                 <div class="col-12">
-                    <div class="card">
+                   
                         <div class="table-responsive">
-                            <table id="tableData" class="table table-bordered">
-                             <thead>
-                                <td>Halo</td>
-                             </thead>
-                            </table>
-                        </div>
+                        <table id="data" class="table table-bordered">
+                            <thead class="table table-dark">
+                                <tr>
+                                    <th>Judul Pengaduan</th>
+                                    <th>Lokasi Pengaduan</th>
+                                    <th>Status Pengaduan</th>
+                                    <th>Opsi</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Tes</td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
+                    
                 </div>
-                
+
                 <!--/ Data Tables -->
             </div>
         </div>
-        <!-- / Content -->
+        <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+       
         <script src="https://code.jquery.com/jquery-3.7.1.min.js"
-        integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
-    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
-    <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
+            integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+        <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+        <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
+
+        <!-- Your script to initialize DataTables -->
+        <script>
+            $('#data').DataTable({
+                lengthMenu: [
+                    [5, 10, 25, -1],
+                    [5, 10, 25, "All"]
+                ],
+    
+                pageLength: 5 // Menampilkan 5 data per halaman
+            });
+        </script>
     @endsection

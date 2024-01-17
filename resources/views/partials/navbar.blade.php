@@ -603,14 +603,14 @@
                                 <span class="align-middle">Settings</span>
                             </a>
                         </li>
-                        <li>
+                        {{-- <li>
                             <a class="dropdown-item" href="#">
                                 <span class="d-flex align-items-center align-middle">
                                     <i class="flex-shrink-0 mdi mdi-credit-card-outline me-1 mdi-20px"></i>
                                     <span class="flex-grow-1 align-middle ms-1">Billing</span>
                                 </span>
                             </a>
-                        </li>
+                        </li> --}}
                         <li>
                             <div class="dropdown-divider my-1"></div>
                         </li>
