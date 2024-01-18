@@ -71,8 +71,17 @@
                                             </div>
                                         </div>
                                         <div class="ms-3">
+                                            @php
+                                            $user_id = session('user_id');
+
+                                            $countTerkirim = DB::table('pengaduan')
+                                                ->where('IsDelete', 0)
+                                                ->where('IsApproved','=', '0')
+                                                ->where('id_user', $user_id)
+                                                ->count();
+                                        @endphp
                                             <div class="small mb-1">Pengaduan Terkirim</div>
-                                            <h5 class="mb-0">245k</h5>
+                                            <h5 class="mb-0">{{ $countTerkirim }}</h5>
                                         </div>
                                     </div>
                                 </div>
@@ -84,8 +93,17 @@
                                             </div>
                                         </div>
                                         <div class="ms-3">
+                                            @php
+                                            $user_id = session('user_id');
+
+                                            $countTerproses = DB::table('pengaduan')
+                                                ->where('IsDelete', 0)
+                                                ->where('IsApproved','=', '1')
+                                                ->where('id_user', $user_id)
+                                                ->count();
+                                        @endphp
                                             <div class="small mb-1">Pengaduan Yang Telah Di Proses</div>
-                                            <h5 class="mb-0">12.5k</h5>
+                                            <h5 class="mb-0">{{ $countTerproses }}</h5>
                                         </div>
                                     </div>
                                 </div>
@@ -97,8 +115,16 @@
                                             </div>
                                         </div>
                                         <div class="ms-3">
+                                            @php
+                                            $user_id = session('user_id');
+
+                                            $count = DB::table('pengaduan')
+                                                ->where('IsDelete', 0)
+                                                ->where('id_user', $user_id)
+                                                ->count();
+                                        @endphp
                                             <div class="small mb-1">Total Pengaduan</div>
-                                            <h5 class="mb-0">1.54k</h5>
+                                            <h5 class="mb-0">{{ $count }}</h5>
                                         </div>
                                     </div>
                                 </div>
