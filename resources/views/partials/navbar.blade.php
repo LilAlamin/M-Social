@@ -46,10 +46,15 @@
     <ul class="menu-inner py-1">
         <!-- Dashboards -->
         <li class="menu-item">
-            <a href="/dashboard" class="menu-link">
+            <a href="{{ Route('user.dashboard') }}" class="menu-link">
                 <i class="menu-icon tf-icons mdi mdi-home-outline"></i>
                 <div data-i18n="Dashboards">Dashboards</div>
             </a>
+            <li class="menu-item">
+              <a href="/pengaduan" class="menu-link">
+                <i class="menu-icon tf-icons mdi mdi-window-maximize"></i>
+                <div data-i18n="Layouts">Pengaduan</div>
+              </a>
             {{-- <ul class="menu-sub">
           <li class="menu-item">
             <a

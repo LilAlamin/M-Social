@@ -11,14 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('users', function (Blueprint $table) {
-            $table->id('id_user');
-            $table->string('username');
-            $table->string('password');
-            $table->string('email');
-            $table->enum('user_type', ['admin', 'user'])->default('user');
-            $table->rememberToken();
+        Schema::create('file', function (Blueprint $table) {
+            $table->bigIncrements('id_file');
+            // $table->string('nama_dokumen')->nullable();
+            $table->string('nama_file')->nullable();
+            $table->unsignedBigInteger('id_pengaduan')->nullable();
             $table->boolean('IsDelete')->default(0);
+            $table->foreign('id_pengaduan')->references('id_pengaduan')->on('pengaduan');
             $table->timestamps();
         });
     }
@@ -28,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('users');
+        Schema::dropIfExists('file');
     }
 };

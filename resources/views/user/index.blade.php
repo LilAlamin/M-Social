@@ -630,11 +630,31 @@
                     </div>
                 </div> --}}
                 <!-- Deposit / Withdraw -->
+                @if (Session::has('pesan'))
+    <div class="alert alert-success" id="alert">{{ Session::get('pesan') }}</div>
+    <script>
+        // Automatically hide the alert after 3 seconds
+        setTimeout(function() {
+            document.getElementById('alert').style.display = 'none';
+        }, 3000);
+    </script>
+@endif
+
+@if (Session::has('hapus'))
+    <div class="alert alert-danger" id="alert">{{ Session::get('hapus') }}</div>
+    <script>
+        // Automatically hide the alert after 3 seconds
+        setTimeout(function() {
+            document.getElementById('alert').style.display = 'none';
+        }, 3000);
+    </script>
+@endif
+
 
                 <!-- Data Tables -->
                 <div class="col-12">
-                   
-                        <div class="table-responsive">
+
+                    <div class="table-responsive">
                         <table id="data" class="table table-bordered">
                             <thead class="table table-dark">
                                 <tr>
@@ -645,16 +665,30 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>Tes</td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                </tr>
+                                @foreach ($data as $da)
+                                    @if ($da->IsDelete == 0)
+                                        <tr>
+                                            <td>{{ $da->judul_pengaduan }}</td>
+                                            <td>{{ $da->lokasi_pengaduan }}</td>
+                                            <td>
+                                                @if ($da->IsApproved == 0)
+                                                    <i class="fa-regular fa-clock text-primary"></i>
+                                                    Pengaduan Terkirim
+                                                @elseif($da->IsApproved == 1)
+                                                    <i class="fas fa-check text-success"></i> Pengaduan Berhasil Di Tindak Lanjuti
+                                                @endif
+                                            </td>
+                                            <td>
+                                                <a href="{{ Route('user.destroy',["id"=> $da->id_pengaduan]) }}" class="btn btn-danger">
+                                                    <i class="fa-solid fa-trash-can"></i></a>
+                                            </td>                                          
+                                        </tr>
+                                    @endif
+                                @endforeach
                             </tbody>
                         </table>
                     </div>
-                    
+
                 </div>
 
                 <!--/ Data Tables -->
@@ -662,7 +696,7 @@
         </div>
         <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
-       
+
         <script src="https://code.jquery.com/jquery-3.7.1.min.js"
             integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
         <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
@@ -675,7 +709,7 @@
                     [5, 10, 25, -1],
                     [5, 10, 25, "All"]
                 ],
-    
+
                 pageLength: 5 // Menampilkan 5 data per halaman
             });
         </script>

@@ -20,9 +20,13 @@ Route::post('/',[Auth::class,'masuk']);
 Route::get('/logout',[Auth::class,'logout']);
 Route::get('/daftar',[Auth::class,'registerForm']);
 Route::post('/daftar',[Auth::class,'register'])->name('daftar');
+
 Route::get('/daftar', function () {
     return view('auth/register');
 });
 
 // Users
-Route::get('/dashboard',[userController::class,'index']);
+Route::get('/dashboard',[userController::class,'index'])->name('user.dashboard');
+Route::get('/pengaduan',[userController::class,'formPengajuan'])->name('user.pengajuan');
+Route::post('/pengaduan',[userController::class,'store'])->name('user.store');
+Route::get('/dashboard/{id}',[userController::class,'destroy'])->name('user.destroy');
