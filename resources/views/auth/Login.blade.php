@@ -146,8 +146,8 @@
 
                             <div class="form-floating form-floating-outline mb-3">
                                 <input type="text" class="form-control" id="username" name="username"
-                                    placeholder="Enter your username" autofocus />
-                                <label for="email">Username</label>
+                                    placeholder="Enter your username or your email" autofocus />
+                                <label for="email">Username / Email</label>
                             </div>
                             <div class="mb-3">
                                 <div class="form-password-toggle">

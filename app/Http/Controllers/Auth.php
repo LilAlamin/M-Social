@@ -10,40 +10,39 @@ use Illuminate\Support\Facades\Hash;
 class Auth extends Controller
 {
     //
-    public function login(){
+    public function login()
+    {
         return view('auth.Login');
     }
-    
+
     public function masuk(Request $req)
     {
         $req->validate([
             'username' => 'required',
             'password' => 'required',
         ]);
-    
+
         $data = DB::table('users')
-            ->where('username', '=', $req->username)
+            ->where(function ($query) use ($req) {
+                $query->where('username', '=', $req->username)->orWhere('email', '=', $req->username);
+            })
             ->first(['id_user', 'user_type', 'password']);
-    
+
         if ($data && Hash::check($req->password, $data->password)) {
             $req->session()->put('user_id', $data->id_user);
             $req->session()->put('user_type', $data->user_type);
-            
-    
+
             if ($data->user_type == 'admin') {
                 return redirect('/daftar');
             } elseif ($data->user_type == 'user') {
                 return redirect('/dashboard');
             } else {
-                return redirect('/')->with('gagal','Akun Anda Tidak Terdaftar');
+                return redirect('/')->with('gagal', 'Akun Anda Tidak Terdaftar');
             }
         } else {
             return redirect('/')->with('gagal', 'Akun Anda Tidak Terdaftar');
         }
-        
     }
-    
-
 
     public function registerForm()
     {
@@ -72,7 +71,8 @@ class Auth extends Controller
         return redirect('/')->with('success', 'Registration successful!');
     }
 
-    public function logout(Request $req){
+    public function logout(Request $req)
+    {
         $req->session()->flush('user_id');
         return redirect('/');
     }
