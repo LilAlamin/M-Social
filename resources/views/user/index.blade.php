@@ -89,7 +89,7 @@
                                     <div class="d-flex align-items-center">
                                         <div class="avatar">
                                             <div class="avatar-initial bg-success rounded shadow">
-                                                <i class="mdi mdi-account-outline mdi-24px"></i>
+                                                <i class="fa-reguler fas fa-check"></i>
                                             </div>
                                         </div>
                                         <div class="ms-3">
@@ -707,18 +707,29 @@
                                                     <td>{{ $da->lokasi_pengaduan }}</td>
                                                     <td>
                                                         @if ($da->IsApproved == 0)
-                                                            <i class="fa-regular fa-clock text-primary"></i>
-                                                            Menunggu
+                                                        <div class="card m-2 p-2 d-flex align-items-center bg-info">
+                                                            <i class="fa-regular fa-clock text-white"></i>
+                                                            <span class="ml-2 text-white">Menunggu</span>
+                                                        </div>
+                                                        
+                                                        
                                                         @elseif($da->IsApproved == 1)
-                                                            <i class="fas fa-check text-success"></i> Pengaduan Berhasil Di
-                                                            Tindak Lanjuti
+                                                        <div class="card m-2 p-2 d-flex align-items-center bg-success">
+                                                            <i class="fa-regular fas fa-check text-white"></i>
+                                                            <span class="ml-2 text-white">Pengaduan Berhasil Di
+                                                                Tindak Lanjuti</span>
+                                                        </div>
                                                         @endif
                                                     </td>
                                                     <td>
                                                         <a href="{{ Route('user.destroy', ['id' => $da->id_pengaduan]) }}"
-                                                            class="btn btn-danger">
-                                                            <i class="fa-solid fa-trash-can"></i>
-                                                        </a>
+                                                            class="btn btn-danger {{ $da->IsApproved == 1 ? 'disabled' : '' }}"
+                                                            {{ $da->IsApproved == 1 ? 'aria-disabled=true' : '' }}
+                                                            {{ $da->IsApproved == 1 ? 'tabindex=-1' : '' }}
+                                                            title="{{ $da->IsApproved == 1 ? 'Pengaduan sudah ditanggapi. Tidak bisa dihapus.' : '' }}">
+                                                             <i class="fa-solid fa-trash-can"></i>
+                                                         </a>
+                                                         
                                                     </td>
                                                 </tr>
                                             @endif
