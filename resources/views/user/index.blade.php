@@ -22,7 +22,7 @@
                             @endphp
                             <h4 class="card-title">
                                 @if ($userName)
-                                    Selamat Datang,{{ $userName }} 🎉
+                                    Selamat Datang, {{ $userName }} 🎉
                                 @else
                                     Selamat Datang
                                 @endif
@@ -682,8 +682,11 @@
                     <div class="card text-dark">
                         <div class="card-header bg-primary">
                             <h4 class="mb-0 text-white ms-0">
-                                <svg width="40" height="35" viewBox="0 0 8 8" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M4.83333 2.95833H6.08333C6.3125 2.95833 6.5 2.77083 6.5 2.54167C6.5 2.3125 6.3125 2.125 6.08333 2.125H4.83333C4.60417 2.125 4.41667 2.3125 4.41667 2.54167C4.41667 2.77083 4.60417 2.95833 4.83333 2.95833ZM4.83333 5.875H6.08333C6.3125 5.875 6.5 5.6875 6.5 5.45833C6.5 5.22917 6.3125 5.04167 6.08333 5.04167H4.83333C4.60417 5.04167 4.41667 5.22917 4.41667 5.45833C4.41667 5.6875 4.60417 5.875 4.83333 5.875ZM6.91667 7.75H1.08333C0.625 7.75 0.25 7.375 0.25 6.91667V1.08333C0.25 0.625 0.625 0.25 1.08333 0.25H6.91667C7.375 0.25 7.75 0.625 7.75 1.08333V6.91667C7.75 7.375 7.375 7.75 6.91667 7.75ZM1.91667 3.58333H3.16667C3.39583 3.58333 3.58333 3.39583 3.58333 3.16667V1.91667C3.58333 1.6875 3.39583 1.5 3.16667 1.5H1.91667C1.6875 1.5 1.5 1.6875 1.5 1.91667V3.16667C1.5 3.39583 1.6875 3.58333 1.91667 3.58333ZM1.91667 1.91667H3.16667V3.16667H1.91667V1.91667ZM1.91667 6.5H3.16667C3.39583 6.5 3.58333 6.3125 3.58333 6.08333V4.83333C3.58333 4.60417 3.39583 4.41667 3.16667 4.41667H1.91667C1.6875 4.41667 1.5 4.60417 1.5 4.83333V6.08333C1.5 6.3125 1.6875 6.5 1.91667 6.5ZM1.91667 4.83333H3.16667V6.08333H1.91667V4.83333Z" fill="white"/>
+                                <svg width="40" height="35" viewBox="0 0 8 8" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="M4.83333 2.95833H6.08333C6.3125 2.95833 6.5 2.77083 6.5 2.54167C6.5 2.3125 6.3125 2.125 6.08333 2.125H4.83333C4.60417 2.125 4.41667 2.3125 4.41667 2.54167C4.41667 2.77083 4.60417 2.95833 4.83333 2.95833ZM4.83333 5.875H6.08333C6.3125 5.875 6.5 5.6875 6.5 5.45833C6.5 5.22917 6.3125 5.04167 6.08333 5.04167H4.83333C4.60417 5.04167 4.41667 5.22917 4.41667 5.45833C4.41667 5.6875 4.60417 5.875 4.83333 5.875ZM6.91667 7.75H1.08333C0.625 7.75 0.25 7.375 0.25 6.91667V1.08333C0.25 0.625 0.625 0.25 1.08333 0.25H6.91667C7.375 0.25 7.75 0.625 7.75 1.08333V6.91667C7.75 7.375 7.375 7.75 6.91667 7.75ZM1.91667 3.58333H3.16667C3.39583 3.58333 3.58333 3.39583 3.58333 3.16667V1.91667C3.58333 1.6875 3.39583 1.5 3.16667 1.5H1.91667C1.6875 1.5 1.5 1.6875 1.5 1.91667V3.16667C1.5 3.39583 1.6875 3.58333 1.91667 3.58333ZM1.91667 1.91667H3.16667V3.16667H1.91667V1.91667ZM1.91667 6.5H3.16667C3.39583 6.5 3.58333 6.3125 3.58333 6.08333V4.83333C3.58333 4.60417 3.39583 4.41667 3.16667 4.41667H1.91667C1.6875 4.41667 1.5 4.60417 1.5 4.83333V6.08333C1.5 6.3125 1.6875 6.5 1.91667 6.5ZM1.91667 4.83333H3.16667V6.08333H1.91667V4.83333Z"
+                                        fill="white" />
                                 </svg>
                                 Pengaduan Anda
                             </h4>
@@ -707,18 +710,24 @@
                                                     <td>{{ $da->lokasi_pengaduan }}</td>
                                                     <td>
                                                         @if ($da->IsApproved == 0)
-                                                        <div class="card m-2 p-2 d-flex align-items-center bg-info">
-                                                            <i class="fa-regular fa-clock text-white"></i>
-                                                            <span class="ml-2 text-white">Menunggu</span>
-                                                        </div>
-                                                        
-                                                        
+                                                            <div class="carddd  p-2 d-flex align-items-center  bg-info" style="width: 40%">
+                                                                <i class="fa-regular fa-clock text-white text-center"></i>
+                                                                <span class="ml-2 text-white ms-3">Menunggu</span>
+                                                            </div>
+
+                                                            <style>
+                                                                .carddd{
+                                                                    display: flex;
+                                                                    align-items: center;
+                                                                    border-radius: 10px;
+                                                                }
+                                                            </style>
                                                         @elseif($da->IsApproved == 1)
-                                                        <div class="card m-2 p-2 d-flex align-items-center bg-success">
-                                                            <i class="fa-regular fas fa-check text-white"></i>
-                                                            <span class="ml-2 text-white">Pengaduan Berhasil Di
-                                                                Tindak Lanjuti</span>
-                                                        </div>
+                                                            <div class="card m-2 p-2 d-flex align-items-center bg-success">
+                                                                <i class="fa-regular fas fa-check text-white"></i>
+                                                                <span class="ml-2 text-white">Pengaduan Berhasil Di
+                                                                    Tindak Lanjuti</span>
+                                                            </div>
                                                         @endif
                                                     </td>
                                                     <td>
@@ -727,9 +736,9 @@
                                                             {{ $da->IsApproved == 1 ? 'aria-disabled=true' : '' }}
                                                             {{ $da->IsApproved == 1 ? 'tabindex=-1' : '' }}
                                                             title="{{ $da->IsApproved == 1 ? 'Pengaduan sudah ditanggapi. Tidak bisa dihapus.' : '' }}">
-                                                             <i class="fa-solid fa-trash-can"></i>
-                                                         </a>
-                                                         
+                                                            <i class="fa-solid fa-trash-can"></i>
+                                                        </a>
+
                                                     </td>
                                                 </tr>
                                             @endif
