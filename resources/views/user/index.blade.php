@@ -675,7 +675,52 @@
                         }, 3000);
                     </script>
                 @endif
+                <!-- Add a modal at the end of your HTML body -->
+                <div class="modal fade" id="detailModal" tabindex="-1" aria-labelledby="detailModalLabel"
+                    aria-hidden="true">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                            <div class="modal-header bg-primary">
+                                <h5 class="modal-title text-white mb-2" id="detailModalLabel">
+                                    <svg width="40" height="35" viewBox="0 0 8 8" fill="none"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <path
+                                            d="M4.83333 2.95833H6.08333C6.3125 2.95833 6.5 2.77083 6.5 2.54167C6.5 2.3125 6.3125 2.125 6.08333 2.125H4.83333C4.60417 2.125 4.41667 2.3125 4.41667 2.54167C4.41667 2.77083 4.60417 2.95833 4.83333 2.95833ZM4.83333 5.875H6.08333C6.3125 5.875 6.5 5.6875 6.5 5.45833C6.5 5.22917 6.3125 5.04167 6.08333 5.04167H4.83333C4.60417 5.04167 4.41667 5.22917 4.41667 5.45833C4.41667 5.6875 4.60417 5.875 4.83333 5.875ZM6.91667 7.75H1.08333C0.625 7.75 0.25 7.375 0.25 6.91667V1.08333C0.25 0.625 0.625 0.25 1.08333 0.25H6.91667C7.375 0.25 7.75 0.625 7.75 1.08333V6.91667C7.75 7.375 7.375 7.75 6.91667 7.75ZM1.91667 3.58333H3.16667C3.39583 3.58333 3.58333 3.39583 3.58333 3.16667V1.91667C3.58333 1.6875 3.39583 1.5 3.16667 1.5H1.91667C1.6875 1.5 1.5 1.6875 1.5 1.91667V3.16667C1.5 3.39583 1.6875 3.58333 1.91667 3.58333ZM1.91667 1.91667H3.16667V3.16667H1.91667V1.91667ZM1.91667 6.5H3.16667C3.39583 6.5 3.58333 6.3125 3.58333 6.08333V4.83333C3.58333 4.60417 3.39583 4.41667 3.16667 4.41667H1.91667C1.6875 4.41667 1.5 4.60417 1.5 4.83333V6.08333C1.5 6.3125 1.6875 6.5 1.91667 6.5ZM1.91667 4.83333H3.16667V6.08333H1.91667V4.83333Z"
+                                            fill="white" />
+                                    </svg>
 
+                                    Detail Pengaduan Anda
+                                </h5>
+                                {{-- <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button> --}}
+                            </div>
+                            <div class="modal-body">
+                                <!-- Display details here -->
+                                {{-- <h4>Judul Pengaduan: <span id="detailJudul"></span></h4> --}}
+                                <label for="" class="form-label text-dark">Judul Pengaduan :</label>
+                                <p id="detailJudul" class="border-bottom"></p>
+                                <label for="" class="form-label text-dark">Lokasi Pengaduan :</label>
+                                <p id="detailLokasi" class="border-bottom"></p>
+                                <label for="" class="form-label text-dark">Tanggal Pengaduan :</label>
+                                <p id="detailWaktu" class="border-bottom"></p>
+                                <label for="" class="form-label text-dark">Pengaduan :</label>
+                                <p id="detailDeskripsi" class="border-bottom"></p>
+                                <label for="" class="form-label text-dark">Lampiran :</label>
+                                <div id="lampiranDetail" class="border-bottom"></div>
+
+
+                                {{-- <p>Lokasi Pengaduan: <span id="detailLokasi"></span></p>
+                                <p>Status Pengaduan: <span id="detailStatus"></span></p>
+                                <p>Deskripsi Pengaduan: <span id="detailDeskripsi"></span></p>
+                                <p>Username: <span id="detailUsername"></span></p> --}}
+                                <!-- Add other details as needed -->
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
                 <!-- Data Tables -->
                 <div class="col-12">
@@ -710,13 +755,14 @@
                                                     <td>{{ $da->lokasi_pengaduan }}</td>
                                                     <td>
                                                         @if ($da->IsApproved == 0)
-                                                            <div class="carddd  p-2 d-flex align-items-center  bg-info" style="width: 40%">
+                                                            <div class="carddd  p-2 d-flex align-items-center  bg-info"
+                                                                style="width: 40%">
                                                                 <i class="fa-regular fa-clock text-white text-center"></i>
                                                                 <span class="ml-2 text-white ms-3">Menunggu</span>
                                                             </div>
 
                                                             <style>
-                                                                .carddd{
+                                                                .carddd {
                                                                     display: flex;
                                                                     align-items: center;
                                                                     border-radius: 10px;
@@ -731,6 +777,12 @@
                                                         @endif
                                                     </td>
                                                     <td>
+                                                        <button class="btn btn-info view-details"
+                                                            data-id="{{ $da->id_pengaduan }}">
+                                                            <i class="fa-solid fa-eye"></i>
+                                                        </button>
+
+
                                                         <a href="{{ Route('user.destroy', ['id' => $da->id_pengaduan]) }}"
                                                             class="btn btn-danger {{ $da->IsApproved == 1 ? 'disabled' : '' }}"
                                                             {{ $da->IsApproved == 1 ? 'aria-disabled=true' : '' }}
@@ -761,7 +813,60 @@
         <script src="https://code.jquery.com/jquery-3.7.1.min.js"
             integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
         <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+        <!-- Include moment.js in the head section -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+        <script src="https://momentjs.com/downloads/moment-with-locales.min.js"></script>
+
         <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
+        <!-- Add the script at the end of your HTML body -->
+        <!-- Add the script at the end of your HTML body -->
+        <!-- Add the script at the end of your HTML body -->
+        <script>
+            // Triggered when the view-details button is clicked
+            // Triggered when the view-details button is clicked
+            $('.view-details').on('click', function() {
+                var pengaduanId = $(this).data('id');
+                $.ajax({
+                    type: 'GET',
+                    url: '/pengaduan/' + pengaduanId + '/detail',
+                    success: function(data) {
+                        // Update modal content with the retrieved details
+                        $('#detailJudul').text(data.pengaduan.judul_pengaduan);
+                        $('#detailLokasi').text(data.pengaduan.lokasi_pengaduan);
+                        $('#detailStatus').text(data.status);
+                        $('#detailDeskripsi').text(data.pengaduan.deskripsi_pengaduan);
+                        $('#detailUsername').text(data.user.username);
+
+                        // Format created_at using moment library with Indonesian locale
+                        var formattedDate = moment(data.pengaduan.created_at).locale('id').format(
+                            'dddd, DD MMMM YYYY HH:mm:ss');
+                        $('#detailWaktu').text(formattedDate);
+
+                        // Display file attachments as images
+                        var attachmentsHtml = '';
+                        if (data.files.length > 0) {
+                            attachmentsHtml += '<div class="image-container">';
+                            data.files.forEach(function(file) {
+                                attachmentsHtml += '<img src="/storage/Foto/' + file.nama_file +
+                                    '" alt="' + file.nama_file +
+                                    '" class="img-thumbnail" style="width: 450px; max-height: 300px; margin-right: 5px;">';
+                            });
+                            attachmentsHtml += '</div>';
+                        }
+                        $('#lampiranDetail').html(attachmentsHtml); // Use the correct id here
+
+                        // Show the modal
+                        $('#detailModal').modal('show');
+                    },
+                    error: function() {
+                        alert('Failed to load details.');
+                    }
+                });
+            });
+        </script>
+
+
+
 
         <!-- Your script to initialize DataTables -->
         <script>

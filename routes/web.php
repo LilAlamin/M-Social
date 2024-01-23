@@ -29,4 +29,5 @@ Route::get('/daftar', function () {
 Route::get('/dashboard',[userController::class,'index'])->name('user.dashboard');
 Route::get('/pengaduan',[userController::class,'formPengajuan'])->name('user.pengajuan');
 Route::post('/pengaduan',[userController::class,'store'])->name('user.store');
+Route::get('/pengaduan/{id}/detail',[userController::class,"showDetail"])->name('user.detail');
 Route::get('/dashboard/{id}',[userController::class,'destroy'])->name('user.destroy');

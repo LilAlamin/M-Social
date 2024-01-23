@@ -35,7 +35,7 @@ class userController extends Controller
     {
         $user = users::find($request->session()->get('user_id'));
 
-        //Menyimpan data pengajuan
+        // Menyimpan data pengajuan
         $pengaduan = pengaduan::create([
             'judul_pengaduan' => $request->judul,
             'lokasi_pengaduan' => $request->lokasi,
@@ -43,15 +43,10 @@ class userController extends Controller
             'id_user' => $request->session()->get('user_id'),
         ]);
 
-        // Log::create([
-        //     'id_pengajuan' => $pengajuan->id_pengajuan,
-        //     'isi_log' => 'Pengajuan dibuat oleh ' . $user->username,
-        // ]);
-
         $files = $request->file('file');
 
         // Pastikan $files adalah array sebelum menggunakan fungsi count
-        if (is_array($files)) {
+        if (!empty($files) && is_array($files)) {
             // Iterate through the array
             for ($i = 0; $i < count($files); $i++) {
                 $dokumen = new file();
@@ -69,38 +64,61 @@ class userController extends Controller
 
                 $dokumen->save();
             }
-
-            return redirect('/dashboard')->with('pesan', 'Data Berhasil Ditambahkan');
         }
+
+        return redirect('/dashboard')->with('pesan', 'Data Berhasil Ditambahkan');
     }
+
     public function destroy($id)
     {
         // Find the pengajuan
         $pengaduan = pengaduan::find($id);
-    
+
         // If we didn't find a valid pengajuan, then redirect (or error, etc.)
         if (!$pengaduan) {
             return redirect()
                 ->back()
                 ->with('error', 'Invalid pengajuan ID');
         }
-    
+
         // We found the pengajuan, so 'delete' it and then redirect (or whatever you want to do)
         $pengaduan->IsDelete = 1;
         $pengaduan->save();
-    
+
         // Get the admin user who is performing the update
         // $user = admin::find(session('user_id'));
-    
+
         // Create a log entry
         // Log::create([
         //     'id_pengajuan' => $pengajuan->id_pengajuan,
         //     'isi_log' => 'Pengajuan Telah Dihapus oleh ' . $user->username,
         // ]);
-    
+
         // Redirect (or whatever you'd like to do after 'deleting' the pengajuan)
         return redirect()
             ->back()
             ->with('hapus', 'Pengajuan deleted successfully');
     }
+
+    public function showDetail($id)
+    {
+        $pengaduan = pengaduan::find($id);
+    
+        // If the pengaduan is not found, return an error response
+        if (!$pengaduan) {
+            return response()->json(['error' => 'Invalid pengaduan ID'], 404);
+        }
+    
+        $user = users::find($pengaduan->id_user);
+    
+        // Determine the status based on IsApproved
+        $status = $pengaduan->IsApproved == 0 ? 'Menunggu' : 'Pengaduan Berhasil Ditindak Lanjuti';
+    
+        // Retrieve file attachments related to the pengaduan
+        $files = file::where('id_pengaduan', $pengaduan->id_pengaduan)->get();
+    
+        // Return details, including file attachments, as JSON
+        return response()->json(['pengaduan' => $pengaduan, 'user' => $user, 'status' => $status, 'files' => $files]);
+    }
+    
 }
