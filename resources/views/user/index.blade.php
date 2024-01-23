@@ -755,26 +755,20 @@
                                                     <td>{{ $da->lokasi_pengaduan }}</td>
                                                     <td>
                                                         @if ($da->IsApproved == 0)
-                                                            <div class="carddd  p-2 d-flex align-items-center  bg-info"
-                                                                style="width: 40%">
+                                                            <div
+                                                                class="carddd p-2 d-flex align-items-center bg-info d-sm-flex justify-content-sm-center">
                                                                 <i class="fa-regular fa-clock text-white text-center"></i>
                                                                 <span class="ml-2 text-white ms-3">Menunggu</span>
                                                             </div>
-
-                                                            <style>
-                                                                .carddd {
-                                                                    display: flex;
-                                                                    align-items: center;
-                                                                    border-radius: 10px;
-                                                                }
-                                                            </style>
                                                         @elseif($da->IsApproved == 1)
-                                                            <div class="card m-2 p-2 d-flex align-items-center bg-success">
+                                                            <div
+                                                                class="carddd p-2 d-flex align-items-center bg-success d-sm-flex justify-content-sm-center">
                                                                 <i class="fa-regular fas fa-check text-white"></i>
-                                                                <span class="ml-2 text-white">Pengaduan Berhasil Di
-                                                                    Tindak Lanjuti</span>
+                                                                <span class="ml-2 text-white ms-3">Ditanggapi</span>
                                                             </div>
                                                         @endif
+
+
                                                     </td>
                                                     <td>
                                                         <button class="btn btn-info view-details"
@@ -816,6 +810,9 @@
         <!-- Include moment.js in the head section -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
         <script src="https://momentjs.com/downloads/moment-with-locales.min.js"></script>
+        <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.js"></script>
+        
 
         <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
         <!-- Add the script at the end of your HTML body -->
@@ -844,16 +841,42 @@
 
                         // Display file attachments as images
                         var attachmentsHtml = '';
+
                         if (data.files.length > 0) {
                             attachmentsHtml += '<div class="image-container">';
-                            data.files.forEach(function(file) {
+                            data.files.forEach(function(file, index) {
+                                attachmentsHtml +=
+                                    '<a data-fancybox="gallery" href="/storage/Foto/' + file
+                                    .nama_file + '" data-caption="' + file.nama_file + '">';
                                 attachmentsHtml += '<img src="/storage/Foto/' + file.nama_file +
                                     '" alt="' + file.nama_file +
                                     '" class="img-thumbnail" style="width: 450px; max-height: 300px; margin-right: 5px;">';
+                                attachmentsHtml += '</a>';
                             });
                             attachmentsHtml += '</div>';
+                        } else {
+                            attachmentsHtml = 'Tidak ada lampiran';
                         }
-                        $('#lampiranDetail').html(attachmentsHtml); // Use the correct id here
+
+                        $('#lampiranDetail').html(attachmentsHtml);
+
+                        // Initialize Fancybox
+                        // $('[data-fancybox="gallery"]').fancybox({
+                        //     thumbs: {
+                        //         autoStart: true, // Enable thumbnail preview
+                        //     },
+                        //     loop: true, // Enable infinite loop
+                        //     buttons: [
+                        //         'slideShow',
+                        //         'fullScreen',
+                        //         'thumbs',
+                        //         'close'
+                        //     ],
+                        //     animationEffect: "zoom",
+                        //     transitionEffect: "slide",
+                        // });
+
+
 
                         // Show the modal
                         $('#detailModal').modal('show');
@@ -879,4 +902,15 @@
                 pageLength: 5 // Menampilkan 5 data per halaman
             });
         </script>
+        <style>
+            @media (min-width: 768px) {
+                .carddd {
+                    width: 60%;
+                    margin-left: 20%;
+                    /* Atur lebar sesuai keinginan Anda */
+                    border-radius: 10px;
+                    /* Atur radius sesuai keinginan Anda */
+                }
+            }
+        </style>
     @endsection
