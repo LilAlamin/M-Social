@@ -756,15 +756,21 @@
                                                     <td>
                                                         @if ($da->IsApproved == 0)
                                                             <div
-                                                                class="carddd p-2 d-flex align-items-center bg-info d-sm-flex justify-content-sm-center">
-                                                                <i class="fa-regular fa-clock text-white text-center"></i>
-                                                                <span class="ml-2 text-white ms-3">Menunggu</span>
+                                                                class="carddd p-2 d-flex align-items-center bg-danger d-sm-flex justify-content-sm-center">
+                                                                <i class="fa-regular fa-hourglass-half text-white text-center"></i>
+                                                                <span class="ml-2 text-white ms-3">Belum Ditanggapi</span>
                                                             </div>
                                                         @elseif($da->IsApproved == 1)
                                                             <div
+                                                                class="carddd p-2 d-flex align-items-center bg-info d-sm-flex justify-content-sm-center">
+                                                                <i class="fa-regular fa-clock text-white"></i>
+                                                                <span class="ml-2 text-white ms-3">Sedang DiProses</span>
+                                                            </div>
+                                                        @elseif($da->IsApproved == 2)
+                                                            <div
                                                                 class="carddd p-2 d-flex align-items-center bg-success d-sm-flex justify-content-sm-center">
                                                                 <i class="fa-regular fas fa-check text-white"></i>
-                                                                <span class="ml-2 text-white ms-3">Ditanggapi</span>
+                                                                <span class="ml-2 text-white ms-3">Sudah Ditanggapi</span>
                                                             </div>
                                                         @endif
 
@@ -812,7 +818,7 @@
         <script src="https://momentjs.com/downloads/moment-with-locales.min.js"></script>
         <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.css">
         <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.js"></script>
-        
+
 
         <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
         <!-- Add the script at the end of your HTML body -->

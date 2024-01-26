@@ -18,7 +18,7 @@ return new class extends Migration
             $table->unsignedBigInteger('id_user');
             $table->text('deskripsi pengaduan');
             $table->boolean('IsDelete')->default(0);
-            $table->enum('IsApproved', [0, 1])->default(0);
+            $table->enum('IsApproved', [0, 1, 2])->default(0);
 
             $table->foreign('id_user')->references('id_user')->on('users');
             $table->timestamps();
