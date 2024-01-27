@@ -20,13 +20,41 @@
                                 $user = \App\Models\users::find($userId);
                                 $userName = $user ? $user->username : null;
                             @endphp
-                            <h4 class="card-title">
+                            {{-- pake ucapan waktu --}}
+                            <?php
+                            $currentTime = date('H');
+                            
+                            if ($userName) {
+                                echo '<h4 class="card-title">';
+                                if ($currentTime >= 0 && $currentTime < 12) {
+                                    echo 'Selamat Pagi, ' . $userName . ' 🌅';
+                                } elseif ($currentTime >= 12 && $currentTime < 18) {
+                                    echo 'Selamat Siang, ' . $userName . ' ☀️';
+                                } else {
+                                    echo 'Selamat Malam, ' . $userName . ' 🌙';
+                                }
+                                echo '</h4>';
+                            } else {
+                                echo '<h4 class="card-title">';
+                                if ($currentTime >= 0 && $currentTime < 12) {
+                                    echo 'Selamat Pagi';
+                                } elseif ($currentTime >= 12 && $currentTime < 18) {
+                                    echo 'Selamat Siang';
+                                } else {
+                                    echo 'Selamat Malam';
+                                }
+                                echo '</h4>';
+                            }
+                            ?>
+
+                            {{-- pake biasa --}}
+                            {{-- <h4 class="card-title">
                                 @if ($userName)
                                     Selamat Datang, {{ $userName }} 🎉
                                 @else
                                     Selamat Datang
                                 @endif
-                            </h4>
+                            </h4> --}}
 
                         </div>
 
@@ -76,11 +104,11 @@
 
                                                 $countTerkirim = DB::table('pengaduan')
                                                     ->where('IsDelete', 0)
-                                                    ->where('IsApproved', '=', '0')
+                                                    ->where('IsApproved', '=', '1')
                                                     ->where('id_user', $user_id)
                                                     ->count();
                                             @endphp
-                                            <div class="small mb-1">Pengaduan Terkirim</div>
+                                            <div class="small mb-1">Pengaduan Belum Diproses</div>
                                             <h5 class="mb-0">{{ $countTerkirim }}</h5>
                                         </div>
                                     </div>
@@ -98,11 +126,11 @@
 
                                                 $countTerproses = DB::table('pengaduan')
                                                     ->where('IsDelete', 0)
-                                                    ->where('IsApproved', '=', '1')
+                                                    ->where('IsApproved', '=', '2')
                                                     ->where('id_user', $user_id)
                                                     ->count();
                                             @endphp
-                                            <div class="small mb-1">Pengaduan Yang Telah Di Proses</div>
+                                            <div class="small mb-1">Pengaduan Yang Telah Ditanggapi</div>
                                             <h5 class="mb-0">{{ $countTerproses }}</h5>
                                         </div>
                                     </div>
@@ -707,6 +735,8 @@
                                 <p id="detailDeskripsi" class="border-bottom"></p>
                                 <label for="" class="form-label text-dark">Lampiran :</label>
                                 <div id="lampiranDetail" class="border-bottom"></div>
+                                <label for="" class="form-label text-dark">Status Pengaduan :</label>
+                                <div id="detailStatus" class="border-bottom"></div>
 
 
                                 {{-- <p>Lokasi Pengaduan: <span id="detailLokasi"></span></p>
@@ -757,14 +787,15 @@
                                                         @if ($da->IsApproved == 0)
                                                             <div
                                                                 class="carddd p-2 d-flex align-items-center bg-danger d-sm-flex justify-content-sm-center">
-                                                                <i class="fa-regular fa-hourglass-half text-white text-center"></i>
+                                                                <i
+                                                                    class="fa-regular fa-hourglass-half text-white text-center"></i>
                                                                 <span class="ml-2 text-white ms-3">Belum Ditanggapi</span>
                                                             </div>
                                                         @elseif($da->IsApproved == 1)
                                                             <div
                                                                 class="carddd p-2 d-flex align-items-center bg-info d-sm-flex justify-content-sm-center">
                                                                 <i class="fa-regular fa-clock text-white"></i>
-                                                                <span class="ml-2 text-white ms-3">Sedang DiProses</span>
+                                                                <span class="ml-2 text-white ms-3">Sedang Diproses</span>
                                                             </div>
                                                         @elseif($da->IsApproved == 2)
                                                             <div
@@ -783,13 +814,77 @@
                                                         </button>
 
 
-                                                        <a href="{{ Route('user.destroy', ['id' => $da->id_pengaduan]) }}"
-                                                            class="btn btn-danger {{ $da->IsApproved == 1 ? 'disabled' : '' }}"
-                                                            {{ $da->IsApproved == 1 ? 'aria-disabled=true' : '' }}
-                                                            {{ $da->IsApproved == 1 ? 'tabindex=-1' : '' }}
-                                                            title="{{ $da->IsApproved == 1 ? 'Pengaduan sudah ditanggapi. Tidak bisa dihapus.' : '' }}">
+                                                        <a href="javascript:void(0);"
+                                                            onclick="confirmDelete({{ $da->id_pengaduan }}, {{ $da->IsApproved }})"
+                                                            class="btn btn-danger delete-btn"
+                                                            {{ $da->IsApproved == 1 || $da->IsApproved == 2 ? 'disabled' : '' }}
+                                                            {{ $da->IsApproved == 1 || $da->IsApproved == 2 ? 'aria-disabled=true' : '' }}
+                                                            {{ $da->IsApproved == 1 || $da->IsApproved == 2 ? 'tabindex=-1' : '' }}
+                                                            title="{{ $da->IsApproved == 1 || $da->IsApproved == 2 ? 'Pengaduan sudah ditanggapi. Tidak bisa dihapus.' : '' }}">
                                                             <i class="fa-solid fa-trash-can"></i>
                                                         </a>
+
+                                                        <script>
+                                                            function confirmDelete(id_pengaduan, isApproved) {
+                                                                // Cek nilai isApproved
+                                                                if (isApproved == 1 || isApproved == 2) {
+                                                                    // Jika isApproved == 1 atau 2, tidak tampilkan Sweet Alert
+                                                                    // atau lakukan tindakan lain sesuai kebutuhan
+                                                                    Swal.fire({
+                                                                        title: 'Gagal Menghapus',
+                                                                        text: 'Pengaduan yang telah diproses tidak dapat dihapus. Silahkan hubungi admin',
+                                                                        icon: 'warning'
+
+                                                                    });
+                                                                } else {
+                                                                    // Tampilkan Sweet Alert jika isApproved bukan 1 atau 2
+                                                                    Swal.fire({
+                                                                        title: 'Apakah kamu yakin?',
+                                                                        text: "Pengaduan yang dihapus tidak dapat dikembalikan!",
+                                                                        icon: 'warning',
+                                                                        showCancelButton: true,
+                                                                        confirmButtonColor: '#3085d6',
+                                                                        cancelButtonColor: '#d33',
+                                                                        confirmButtonText: 'Ya, hapus!',
+                                                                        cancelButtonText: 'Batal'
+                                                                    }).then((result) => {
+                                                                        if (result.isConfirmed) {
+                                                                            // Lakukan permintaan DELETE menggunakan Fetch API
+                                                                            fetch(`{{ route('user.destroy', ['id' => $da->id_pengaduan]) }}`, {
+                                                                                    method: 'DELETE',
+                                                                                    headers: {
+                                                                                        'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                                                                                        'Content-Type': 'application/json'
+                                                                                    },
+                                                                                    body: JSON.stringify({
+                                                                                        id_pengaduan: id_pengaduan
+                                                                                    })
+                                                                                })
+                                                                                .then(response => response.json())
+                                                                                .then(data => {
+                                                                                    // Handle respon setelah penghapusan berhasil
+                                                                                    // Misalnya, tampilkan pesan atau atur tindakan yang diperlukan
+                                                                                    console.log(data);
+                                                                                    Swal.fire('Berhasil!', 'Pengaduan berhasil dihapus.', 'success')
+                                                                                        .then(() => {
+                                                                                            // Refresh halaman setelah menutup SweetAlert
+                                                                                            window.location.reload();
+                                                                                        });
+                                                                                })
+                                                                                .catch(error => {
+                                                                                    // Handle kesalahan jika terjadi
+                                                                                    console.error(error);
+                                                                                    Swal.fire('Oops!', 'Terjadi kesalahan saat menghapus pengaduan.', 'error');
+                                                                                });
+                                                                        }
+                                                                    });
+                                                                }
+                                                            }
+                                                        </script>
+
+
+
+
 
                                                     </td>
                                                 </tr>
@@ -807,6 +902,9 @@
                 <!--/ Data Tables -->
             </div>
         </div>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@10.16.6/dist/sweetalert2.min.css">
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10.16.6/dist/sweetalert2.all.min.js"></script>
+
         <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
 
@@ -816,7 +914,8 @@
         <!-- Include moment.js in the head section -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
         <script src="https://momentjs.com/downloads/moment-with-locales.min.js"></script>
-        <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.css">
+        <link rel="stylesheet" type="text/css"
+            href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.css">
         <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.js"></script>
 
 
@@ -836,9 +935,11 @@
                         // Update modal content with the retrieved details
                         $('#detailJudul').text(data.pengaduan.judul_pengaduan);
                         $('#detailLokasi').text(data.pengaduan.lokasi_pengaduan);
-                        $('#detailStatus').text(data.status);
+                        // $('#detailStatus').text(data.pengaduan.IsApproved);
                         $('#detailDeskripsi').text(data.pengaduan.deskripsi_pengaduan);
                         $('#detailUsername').text(data.user.username);
+                        var statusText = getStatusText(data.pengaduan.IsApproved);
+                        $('#detailStatus').text(statusText);
 
                         // Format created_at using moment library with Indonesian locale
                         var formattedDate = moment(data.pengaduan.created_at).locale('id').format(
@@ -892,6 +993,19 @@
                     }
                 });
             });
+
+            function getStatusText(statusValue) {
+                switch (parseInt(statusValue)) { // Pastikan statusValue di-parse ke integer
+                    case 0:
+                        return 'Belum Ditanggapi';
+                    case 1:
+                        return 'Sedang Diproses';
+                    case 2:
+                        return 'Sudah Ditanggapi';
+                    default:
+                        return 'Status Tidak Dikenali';
+                }
+            }
         </script>
 
 

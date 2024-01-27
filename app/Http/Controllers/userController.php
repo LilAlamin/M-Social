@@ -93,11 +93,12 @@ class userController extends Controller
         //     'id_pengajuan' => $pengajuan->id_pengajuan,
         //     'isi_log' => 'Pengajuan Telah Dihapus oleh ' . $user->username,
         // ]);
-
+        $isDelete = true; // Atau sesuai logika Anda
+    
+        return response()->json(['isDelete' => $isDelete]);
         // Redirect (or whatever you'd like to do after 'deleting' the pengajuan)
-        return redirect()
-            ->back()
-            ->with('hapus', 'Pengajuan deleted successfully');
+        return redirect('/dashboard')->with('hapus', 'Pengaduan berhasil dihapus.');
+
     }
 
     public function showDetail($id)
