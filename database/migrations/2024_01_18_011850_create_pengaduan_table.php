@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('judul_pengaduan');
             $table->string('lokasi_pengaduan');
             $table->unsignedBigInteger('id_user');
-            $table->text('deskripsi pengaduan');
+            $table->text('deskripsi_pengaduan');
             $table->boolean('IsDelete')->default(0);
             $table->enum('IsApproved', [0, 1, 2])->default(0);
 

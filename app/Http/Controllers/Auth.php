@@ -33,9 +33,9 @@ class Auth extends Controller
             $req->session()->put('user_type', $data->user_type);
 
             if ($data->user_type == 'admin') {
-                return redirect('/daftar');
+                return redirect('/admin/dashboard');
             } elseif ($data->user_type == 'user') {
-                return redirect('/dashboard');
+                return redirect('/user/dashboard');
             } else {
                 return redirect('/')->with('gagal', 'Akun Anda Tidak Terdaftar');
             }

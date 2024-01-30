@@ -45,17 +45,46 @@
     <div class="menu-inner-shadow"></div>
     <ul class="menu-inner py-1">
         <!-- Dashboards -->
+
+        @php
+            // Menggunakan helper session() untuk mengambil data dari sesi
+            $userId = session('user_id');
+
+            // Mendapatkan username berdasarkan user_id
+            $user = \App\Models\users::find($userId);
+            $user_type = $user ? $user->user_type : null;
+        @endphp
         <li class="menu-item">
-            <a href="{{ Route('user.dashboard') }}" class="menu-link">
-                <i class="menu-icon tf-icons mdi mdi-home-outline"></i>
-                <div data-i18n="Dashboards">Dashboards</div>
-            </a>
-            <li class="menu-item">
-              <a href="/pengaduan" class="menu-link">
-                <i class="menu-icon tf-icons mdi mdi-window-maximize"></i>
-                <div data-i18n="Layouts">Pengaduan</div>
+            @if ($user_type === 'admin')
+                <a href="{{ route('admin.dashboard') }}" class="menu-link">
+                    <i class="menu-icon tf-icons mdi mdi-home-outline"></i>
+                    <div data-i18n="Dashboards">Dashboards</div>
+                </a>
+                <a href="/generate-pdf?download=true" class="menu-link">
+                  <i class="menu-icon tf-icons mdi mdi-cloud-print-outline"></i>
+                  <div data-i18n="Dashboards">Cetak Laporan</div>
               </a>
-            {{-- <ul class="menu-sub">
+              
+            @else
+                <a href="{{ route('user.dashboard') }}" class="menu-link">
+                    <i class="menu-icon tf-icons mdi mdi-home-outline"></i>
+                    <div data-i18n="Dashboards">Dashboards</div>
+                </a>
+            @endif
+        </li>
+
+        @if ($user_type !== 'admin')
+            <li class="menu-item">
+                <a href="/pengaduan" class="menu-link">
+                    <i class="menu-icon tf-icons mdi mdi-window-maximize"></i>
+                    <div data-i18n="Layouts">Pengaduan</div>
+                </a>
+            </li>
+        @endif
+
+
+
+        {{-- <ul class="menu-sub">
           <li class="menu-item">
             <a
               href="https://demos.themeselection.com/materio-bootstrap-html-admin-template/html/vertical-menu-template/dashboards-crm.html"
@@ -575,19 +604,20 @@
                                             $user = \App\Models\users::find($userId);
                                             $userName = $user ? $user->username : null;
                                         @endphp
-                                        <h6 class="mb-0"> @if ($userName)
-                                          {{ $userName }}
-                                      @else
-                                          
-                                      @endif</h6>
-                                      @php
-                                      // Menggunakan helper session() untuk mengambil data dari sesi
-                                      $userId = session('user_id');
+                                        <h6 class="mb-0">
+                                            @if ($userName)
+                                                {{ $userName }}
+                                            @else
+                                            @endif
+                                        </h6>
+                                        @php
+                                            // Menggunakan helper session() untuk mengambil data dari sesi
+                                            $userId = session('user_id');
 
-                                      // Mendapatkan username berdasarkan user_id
-                                      $user = \App\Models\users::find($userId);
-                                      $user_type = $user ? $user->user_type : null;
-                                  @endphp
+                                            // Mendapatkan username berdasarkan user_id
+                                            $user = \App\Models\users::find($userId);
+                                            $user_type = $user ? $user->user_type : null;
+                                        @endphp
                                         <small class="text-muted">{{ $user_type }}</small>
                                     </div>
                                 </div>

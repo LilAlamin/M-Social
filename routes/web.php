@@ -1,8 +1,10 @@
 <?php
 
-use App\Http\Controllers\userController;
 use App\Http\Controllers\Auth;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\PDFController;
+use App\Http\Controllers\userController;
+use App\Http\Controllers\AdminController;
 
 /*
 |--------------------------------------------------------------------------
@@ -26,8 +28,15 @@ Route::get('/daftar', function () {
 });
 
 // Users
-Route::get('/dashboard',[userController::class,'index'])->name('user.dashboard');
+Route::get('/user/dashboard',[userController::class,'index'])->name('user.dashboard');
 Route::get('/pengaduan',[userController::class,'formPengajuan'])->name('user.pengajuan');
 Route::post('/pengaduan',[userController::class,'store'])->name('user.store');
 Route::get('/pengaduan/{id}/detail',[userController::class,"showDetail"])->name('user.detail');
 Route::delete('/dashboard/{id}/delete', [UserController::class, 'destroy'])->name('user.destroy');
+
+// Admin
+Route::get('/admin/dashboard',[AdminController::class,'index'])->name('admin.dashboard');
+
+
+// pdf
+Route::get('/generate-pdf', [PDFController::class, 'generatePDF']);
