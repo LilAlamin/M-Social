@@ -24,7 +24,7 @@ class PDFController extends Controller
     
         if ($request->has('download')) {
             $pdf = PDF::loadView('pdf.rekap', ['data' => $data])->setOptions(['defaultFont' => 'sans-serif']);
-            return $pdf->download('rekap.pdf');
+            return $pdf->download('rekap_pengaduan.pdf');
         }
     
         return view('pdf.rekap', ['data' => $data]);
