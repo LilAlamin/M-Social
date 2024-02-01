@@ -797,6 +797,59 @@
                     </div>
                 </div>
 
+                {{-- Modal Aproval --}}
+                <div class="modal fade" id="approvalModal" tabindex="-1" role="dialog"
+                aria-hidden="true">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                aria-label="Close"></button>
+                        </div>
+
+                        <div class="modal-body d-flex flex-column align-items-center">
+                            <!-- Your form goes here -->
+                           <img src="{{ asset('assets/img/logo/logo.jpg') }}" alt="" width="150">
+                            <form action="" method="post">
+                                @csrf
+                                <div class="mb-3">
+                                    <label for="approvalStatus" class="form-label">Persetujuan</label>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio"
+                                            name="approvalStatus" id="setujui" value="1" required>
+                                        <label class="form-check-label" for="setujui">
+                                            Setuju
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio"
+                                            name="approvalStatus" id="tidakSetujui" value="2"
+                                            required>
+                                        <label class="form-check-label" for="tidakSetujui">
+                                            Tidak Setuju
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <!-- Use the hidden field to store the id_pengajuan -->
+                                <input type="hidden" name="id_pengaduan" id="approvalId">
+
+                                <div class="mb-3">
+                                    <button type="button" class="btn btn-secondary"
+                                        data-bs-dismiss="modal">Close</button>
+                                    <button type="submit" class="btn btn-primary">Simpan</button>
+                                </div>
+                            </form>
+                        </div>
+
+                        <div class="modal-footer">
+                            <!-- Footer content goes here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
                 <!-- Data Tables -->
                 <div class="col-12">
                     <div class="card text-dark">
@@ -858,6 +911,10 @@
                                                             data-id="{{ $da->id_pengaduan }}">
                                                             <i class="fa-solid fa-eye"></i>
                                                         </button>
+                                                        
+                                                        <button class="btn btn-success btn-approval"
+                                                        data-id="{{ $da->id_pengaduan }}"><i
+                                                            class="fas fa-file-signature"></i></button>
 
 
                                                         <a href="javascript:void(0);"
@@ -1052,6 +1109,17 @@
                         return 'Status Tidak Dikenali';
                 }
             }
+
+
+            $(document).ready(function() {
+            // Function to handle the approval modal
+            $('.btn-approval').click(function(e) {
+                var pengajuanId = $(this).data('id');
+                $('#approvalId').val(pengajuanId);
+                $('#approvalModal').modal('show');
+                e.preventDefault();
+            });
+        });
         </script>
 
 
