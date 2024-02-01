@@ -66,7 +66,7 @@ class userController extends Controller
             }
         }
 
-        return redirect('/dashboard')->with('pesan', 'Data Berhasil Ditambahkan');
+        return redirect('/user/dashboard')->with('pesan', 'Data Berhasil Ditambahkan');
     }
 
     public function destroy($id)
@@ -94,7 +94,7 @@ class userController extends Controller
         //     'isi_log' => 'Pengajuan Telah Dihapus oleh ' . $user->username,
         // ]);
         $isDelete = true; // Atau sesuai logika Anda
-    
+
         return response()->json(['isDelete' => $isDelete]);
         // Redirect (or whatever you'd like to do after 'deleting' the pengajuan)
         return redirect('/dashboard')->with('hapus', 'Pengaduan berhasil dihapus.');
@@ -104,22 +104,22 @@ class userController extends Controller
     public function showDetail($id)
     {
         $pengaduan = pengaduan::find($id);
-    
+
         // If the pengaduan is not found, return an error response
         if (!$pengaduan) {
             return response()->json(['error' => 'Invalid pengaduan ID'], 404);
         }
-    
+
         $user = users::find($pengaduan->id_user);
-    
+
         // Determine the status based on IsApproved
         $status = $pengaduan->IsApproved == 0 ? 'Menunggu' : 'Pengaduan Berhasil Ditindak Lanjuti';
-    
+
         // Retrieve file attachments related to the pengaduan
         $files = file::where('id_pengaduan', $pengaduan->id_pengaduan)->get();
-    
+
         // Return details, including file attachments, as JSON
         return response()->json(['pengaduan' => $pengaduan, 'user' => $user, 'status' => $status, 'files' => $files]);
     }
-    
+
 }
