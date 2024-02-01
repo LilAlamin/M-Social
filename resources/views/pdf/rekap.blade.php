@@ -13,7 +13,7 @@
         <thead>
             <tr>
                 <th>No</th>
-                <th>Username</th>
+                <th>Nama Pengadu</th>
                 <th>Judul Pengaduan</th>
                 <th>Lokasi Kejadian</th>
                 <th>Deskripsi Pengaduan</th>
@@ -23,23 +23,25 @@
         </thead>
         <tbody>
             @foreach ($data as $item)
-                <tr>
-                    <td>{{ $item->number }}</td>
-                    <td>{{ $item->username }}</td>
-                    <td>{{ $item->judul_pengaduan }}</td>
-                    <td>{{ $item->lokasi_pengaduan }}</td>
-                    <td>{{ $item->deskripsi_pengaduan }}</td>
-                    <td>
-                        <!-- Check if attachments is not null before looping -->
-                        @if ($item->attachments)
-                            @foreach ($item->attachments as $attachment)
-                            <img src="{{ url('/storage/Foto/' . $attachment->nama_file) }}" alt="Attachment">
+            <tr>
+                <td>{{ $item->number }}</td>
+                <td>{{ $item->username }}</td>
+                <td>{{ $item->judul_pengaduan }}</td>
+                <td>{{ $item->lokasi_pengaduan }}</td>
+                <td>{{ $item->deskripsi_pengaduan }}</td>
+                <td>
+                    <!-- Check if files relationship is not empty before looping -->
+                    @if ($item->files->isNotEmpty())
+                        @foreach ($item->files as $file)
+                            <!-- Use $file->nama_file as needed -->
+                            <img src="{{ asset('Foto/' . $file->nama_file) }}">
                             @endforeach
-                        @endif
-                    </td>
-                    <!-- Tambahkan kolom-kolom lainnya sesuai kebutuhan -->
-                </tr>
-            @endforeach
+                    @endif
+                </td>
+                <!-- Tambahkan kolom-kolom lainnya sesuai kebutuhan -->
+            </tr>
+        @endforeach
+        
 
         </tbody>
     </table>

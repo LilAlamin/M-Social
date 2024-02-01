@@ -18,4 +18,9 @@ class pengaduan extends Model
     public function user(){
         return $this->belongsTo(users::class, 'id_user'); 
     }
+
+    public function files()
+    {
+        return $this->hasMany(file::class, 'id_pengaduan');
+    }
 }
