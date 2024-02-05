@@ -28,7 +28,7 @@
                 <div class="mb-4">
                     <div class="mb-3">
                         <label for="formFileMultiple" class="form-label">Silahkan Upload Foto (*Optional)</label>
-                        <input class="form-control" type="file" id="formFileMultiple" multiple name="file[]" accept=".jpeg,.jpg, .png" />
+                        <input class="form-control" type="file" id="formFileMultiple" multiple name="file[]" accept=".jpeg,.jpg, .png, .mp4" />
                       </div>
                 </div>
                 {{-- <div class="form-floating form-floating-outline mb-4">
