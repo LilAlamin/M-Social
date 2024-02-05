@@ -36,6 +36,8 @@ Route::delete('/dashboard/{id}/delete', [UserController::class, 'destroy'])->nam
 
 // Admin
 Route::get('/admin/dashboard',[AdminController::class,'index'])->name('admin.dashboard');
+Route::get('/fetch-judul/{id}', [AdminController::class, 'fetchJudul'])->name('fetch-judul');
+
 
 
 // pdf
