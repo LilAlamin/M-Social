@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\pengaduan;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class AdminController extends Controller
 {
@@ -23,5 +24,15 @@ class AdminController extends Controller
      // Tambahkan kondisi where untuk user_id
 
         return view('admin.index', compact('data'));
+    }
+    public function fetchJudul($id)
+    {
+        $judul = DB::table('pengaduan')
+            ->select('judul_pengaduan')
+            ->where('id_pengaduan', $id)
+            ->first();
+
+        // Assuming $judul is an object with 'judul_pengaduan' property
+        return response()->json($judul);
     }
 }

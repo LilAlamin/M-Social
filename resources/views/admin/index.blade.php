@@ -798,56 +798,55 @@
                 </div>
 
                 {{-- Modal Aproval --}}
-                <div class="modal fade" id="approvalModal" tabindex="-1" role="dialog"
-                aria-hidden="true">
-                <div class="modal-dialog modal-lg">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                aria-label="Close"></button>
-                        </div>
+                <div class="modal fade" id="approvalModal" tabindex="-1" role="dialog" aria-hidden="true">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
+                            </div>
 
-                        <div class="modal-body d-flex flex-column align-items-center">
-                            <!-- Your form goes here -->
-                           <img src="{{ asset('assets/img/logo/logo.jpg') }}" alt="" width="150">
-                            <form action="" method="post">
-                                @csrf
-                                <div class="mb-3">
-                                    <label for="approvalStatus" class="form-label">Persetujuan</label>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="radio"
-                                            name="approvalStatus" id="setujui" value="1" required>
-                                        <label class="form-check-label" for="setujui">
-                                            Setuju
-                                        </label>
+                            <div class="modal-body d-flex flex-column align-items-center">
+                                <!-- Your form goes here -->
+                                <img src="{{ asset('assets/img/logo/logo.jpg') }}" alt="" width="150">
+                                <form action="" method="post">
+                                    @csrf
+                                    <div class="mb-3">
+                                        <h4 class="" id="judulPengaduan"></h4>
+                                        <label for="approvalStatus" class="form-label">Ubah Status aduan Menjadi :</label>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="approvalStatus"
+                                                id="setujui" value="1" required>
+                                            <label class="form-check-label" for="setujui">
+                                                Setuju
+                                            </label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="approvalStatus"
+                                                id="tidakSetujui" value="2" required>
+                                            <label class="form-check-label" for="tidakSetujui">
+                                                Tidak Setuju
+                                            </label>
+                                        </div>
                                     </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="radio"
-                                            name="approvalStatus" id="tidakSetujui" value="2"
-                                            required>
-                                        <label class="form-check-label" for="tidakSetujui">
-                                            Tidak Setuju
-                                        </label>
+
+                                    <!-- Use the hidden field to store the id_pengajuan -->
+                                    <input type="hidden" name="id_pengaduan" id="approvalId">
+
+                                    <div class="mb-3">
+                                        <button type="button" class="btn btn-secondary"
+                                            data-bs-dismiss="modal">Close</button>
+                                        <button type="submit" class="btn btn-primary">Simpan</button>
                                     </div>
-                                </div>
+                                </form>
+                            </div>
 
-                                <!-- Use the hidden field to store the id_pengajuan -->
-                                <input type="hidden" name="id_pengaduan" id="approvalId">
-
-                                <div class="mb-3">
-                                    <button type="button" class="btn btn-secondary"
-                                        data-bs-dismiss="modal">Close</button>
-                                    <button type="submit" class="btn btn-primary">Simpan</button>
-                                </div>
-                            </form>
-                        </div>
-
-                        <div class="modal-footer">
-                            <!-- Footer content goes here -->
+                            <div class="modal-footer">
+                                <!-- Footer content goes here -->
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
 
 
                 <!-- Data Tables -->
@@ -911,10 +910,10 @@
                                                             data-id="{{ $da->id_pengaduan }}">
                                                             <i class="fa-solid fa-eye"></i>
                                                         </button>
-                                                        
+
                                                         <button class="btn btn-success btn-approval"
-                                                        data-id="{{ $da->id_pengaduan }}"><i
-                                                            class="fas fa-file-signature"></i></button>
+                                                            data-id="{{ $da->id_pengaduan }}"><i
+                                                                class="fas fa-file-signature"></i></button>
 
 
                                                         <a href="javascript:void(0);"
@@ -1112,14 +1111,32 @@
 
 
             $(document).ready(function() {
-            // Function to handle the approval modal
-            $('.btn-approval').click(function(e) {
-                var pengajuanId = $(this).data('id');
-                $('#approvalId').val(pengajuanId);
-                $('#approvalModal').modal('show');
-                e.preventDefault();
+                // Function to handle the approval modal
+                $('.btn-approval').click(function(e) {
+                    var pengaduanId = $(this).data('id');
+
+                    // Use Ajax to fetch judul_pengaduan based on pengaduanId
+                    $.ajax({
+                        type: 'GET',
+                        url: '/fetch-judul/' + pengaduanId, // Replace with your actual route
+                        success: function(data) {
+                            // Update the h4 element in the modal with the fetched judul_pengaduan
+                            $('#judulPengaduan').text(data.judul_pengaduan);
+
+                            // Set the pengaduanId value in the hidden field
+                            $('#approvalId').val(pengaduanId);
+
+                            // Show the modal
+                            $('#approvalModal').modal('show');
+                        },
+                        error: function(error) {
+                            console.log(error);
+                        }
+                    });
+
+                    e.preventDefault();
+                });
             });
-        });
         </script>
 
 
