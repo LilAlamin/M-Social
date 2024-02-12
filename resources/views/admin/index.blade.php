@@ -809,23 +809,23 @@
                             <div class="modal-body d-flex flex-column align-items-center">
                                 <!-- Your form goes here -->
                                 <img src="{{ asset('assets/img/logo/logo.jpg') }}" alt="" width="150">
-                                <form action="" method="post">
+                                <form action="{{ route('approveAction') }}" method="post">
                                     @csrf
                                     <div class="mb-3">
                                         <h4 class="" id="judulPengaduan"></h4>
                                         <label for="approvalStatus" class="form-label">Ubah Status aduan Menjadi :</label>
                                         <div class="form-check">
                                             <input class="form-check-input" type="radio" name="approvalStatus"
-                                                id="setujui" value="1" required>
-                                            <label class="form-check-label" for="setujui">
-                                                Setuju
+                                                id="Proses" value="1" required>
+                                            <label class="form-check-label" for="Proses">
+                                                Proses Aduan
                                             </label>
                                         </div>
                                         <div class="form-check">
                                             <input class="form-check-input" type="radio" name="approvalStatus"
-                                                id="tidakSetujui" value="2" required>
-                                            <label class="form-check-label" for="tidakSetujui">
-                                                Tidak Setuju
+                                                id="AduanSelesai" value="2" required>
+                                            <label class="form-check-label" for="AduanSelesai">
+                                                Aduan Selesai
                                             </label>
                                         </div>
                                     </div>
@@ -840,6 +840,74 @@
                                     </div>
                                 </form>
                             </div>
+                            
+
+                            {{-- <script>
+                                document.addEventListener("DOMContentLoaded", function() {
+                                    // Mendapatkan elemen radio button untuk proses aduan
+                                    var prosesRadioButton = document.getElementById('Proses');
+                            
+                                    // Mendapatkan elemen radio button untuk aduan selesai
+                                    var selesaiRadioButton = document.getElementById('AduanSelesai');
+                            
+                                    // Mendapatkan elemen id_pengaduan
+                                    var idPengaduan = document.getElementById('approvalId').value;
+                            
+                                    // Mendapatkan elemen judul pengaduan
+                                    var judulPengaduan = document.getElementById('judulPengaduan');
+                            
+                                    // Memanggil fungsi untuk memeriksa status laporan
+                                    checkApprovalStatus();
+                            
+                                    // Event listener untuk radio button
+                                    prosesRadioButton.addEventListener('change', checkApprovalStatus);
+                                    selesaiRadioButton.addEventListener('change', checkApprovalStatus);
+                            
+                                    // Panggil fungsi untuk mengambil status isApproved dari server
+                                    fetchApprovalStatus();
+                            
+                                    function fetchApprovalStatus() {
+                                        fetch(`/get-approval-status/${idPengaduan}`)
+                                        .then(response => {
+                                            if (!response.ok) {
+                                                throw new Error('Terjadi kesalahan saat mengambil data status isApproved.');
+                                            }
+                                            return response.json();
+                                        })
+                                        .then(data => {
+                                            // Set nilai radio button sesuai dengan status isApproved yang diambil
+                                            if (data.isApproved == 1) {
+                                                prosesRadioButton.checked = true;
+                                            } else if (data.isApproved == 2) {
+                                                selesaiRadioButton.checked = true;
+                                            }
+                            
+                                            // Periksa dan atur kembali status laporan
+                                            checkApprovalStatus();
+                                        })
+                                        .catch(error => {
+                                            console.error(error);
+                                            alert('Terjadi kesalahan saat mengambil data status isApproved.');
+                                        });
+                                    }
+                            
+                                    function checkApprovalStatus() {
+                                        // Mendapatkan nilai dari radio button yang terpilih
+                                        var approvalStatus = document.querySelector('input[name="approvalStatus"]:checked').value;
+                            
+                                        // Memeriksa apakah status laporan sudah selesai
+                                        if (approvalStatus == 2) {
+                                            // Menonaktifkan radio button jika status selesai dipilih
+                                            prosesRadioButton.disabled = true;
+                                            selesaiRadioButton.disabled = true;
+                                        } else {
+                                            // Mengaktifkan radio button jika status proses dipilih
+                                            prosesRadioButton.disabled = false;
+                                            selesaiRadioButton.disabled = false;
+                                        }
+                                    }
+                                });
+                            </script> --}}
 
                             <div class="modal-footer">
                                 <!-- Footer content goes here -->
@@ -848,7 +916,11 @@
                     </div>
                 </div>
 
-
+                @if (Session::has('message'))
+                    <div id="pesan-sukses" class="alert alert-success mt-4">
+                        {{ Session::get('message') }}
+                    </div>
+                @endif
                 <!-- Data Tables -->
                 <div class="col-12">
                     <div class="card text-dark">
@@ -912,9 +984,14 @@
                                                         </button>
 
                                                         <button class="btn btn-success btn-approval"
-                                                            data-id="{{ $da->id_pengaduan }}"><i
-                                                                class="fas fa-file-signature"></i></button>
-
+                                                        data-id="{{ $da->id_pengaduan }}"
+                                                        {{ $da->IsApproved == 2 ? 'disabled' : '' }}
+                                                        {{ $da->IsApproved == 2 ? 'aria-disabled=true' : '' }}
+                                                        {{ $da->IsApproved == 2 ? 'tabindex=-1' : '' }}
+                                                        title="{{ $da->IsApproved == 2 ? 'Pengaduan sudah selesai. Tidak bisa diedit.' : '' }}">
+                                                    <i class="fas fa-file-signature"></i>
+                                                </button>
+                                                
 
                                                         <a href="javascript:void(0);"
                                                             onclick="confirmDelete({{ $da->id_pengaduan }}, {{ $da->IsApproved }})"
@@ -929,12 +1006,12 @@
                                                         <script>
                                                             function confirmDelete(id_pengaduan, isApproved) {
                                                                 // Cek nilai isApproved
-                                                                if (isApproved == 1 || isApproved == 2) {
+                                                                if ( isApproved == 2) {
                                                                     // Jika isApproved == 1 atau 2, tidak tampilkan Sweet Alert
                                                                     // atau lakukan tindakan lain sesuai kebutuhan
                                                                     Swal.fire({
                                                                         title: 'Gagal Menghapus',
-                                                                        text: 'Pengaduan yang telah diproses tidak dapat dihapus. Silahkan hubungi admin',
+                                                                        text: 'Pengaduan yang telah Selesai tidak dapat dihapus. Silahkan hubungi Tim Developer',
                                                                         icon: 'warning'
 
                                                                     });
@@ -1095,6 +1172,9 @@
                     }
                 });
             });
+            setTimeout(function() {
+                document.getElementById('pesan-sukses').style.display = 'none';
+            }, 3000);
 
             function getStatusText(statusValue) {
                 switch (parseInt(statusValue)) { // Pastikan statusValue di-parse ke integer
@@ -1140,7 +1220,65 @@
         </script>
 
 
+{{-- <script>
+    $(document).ready(function() {
+        // Mendapatkan elemen radio button untuk proses aduan
+        var prosesRadioButton = $('#Proses');
 
+        // Mendapatkan elemen radio button untuk aduan selesai
+        var selesaiRadioButton = $('#AduanSelesai');
+
+        // Mendapatkan elemen id_pengaduan
+        var id_pengaduan = $('#approvalId').val();
+
+        // Memanggil fungsi untuk memeriksa status laporan
+        fetchApprovalStatus();
+
+        // Event listener untuk radio button
+        prosesRadioButton.on('change', checkApprovalStatus);
+        selesaiRadioButton.on('change', checkApprovalStatus);
+
+        function fetchApprovalStatus() {
+            $.ajax({
+                url: `/get-approval-status/${id_pengaduan}`,
+                type: 'GET',
+                success: function(data) {
+                    // Set nilai radio button sesuai dengan status isApproved yang diambil
+                    if (data.IsApproved == 1) {
+                        prosesRadioButton.prop('checked', true);
+                        selesaiRadioButton.prop('checked', false);
+                    } else if (data.IsApproved == 2) {
+                        prosesRadioButton.prop('checked', false);
+                        selesaiRadioButton.prop('checked', true);
+                    }
+
+                    // Periksa dan atur kembali status laporan
+                    checkApprovalStatus();
+                },
+                error: function(xhr, status, error) {
+                    console.error(error);
+                    alert('Terjadi kesalahan saat mengambil data status isApproved.');
+                }
+            });
+        }
+
+        // Fungsi untuk memeriksa dan mengatur kembali status laporan
+        function checkApprovalStatus() {
+            var approvalStatus = $('input[name="approvalStatus"]:checked').val();
+
+            // Jika isApproved = 1 (Proses Aduan), checkbox pertama dipilih
+            if (approvalStatus == 1) {
+                prosesRadioButton.prop('checked', true);
+                selesaiRadioButton.prop('checked', false);
+            }
+            // Jika isApproved = 2 (Aduan Selesai), checkbox kedua dipilih
+            else if (approvalStatus == 2) {
+                prosesRadioButton.prop('checked', false);
+                selesaiRadioButton.prop('checked', true);
+            }
+        }
+    });
+</script>  --}}
 
         <!-- Your script to initialize DataTables -->
         <script>

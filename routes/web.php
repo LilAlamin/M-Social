@@ -37,6 +37,10 @@ Route::delete('/dashboard/{id}/delete', [UserController::class, 'destroy'])->nam
 // Admin
 Route::get('/admin/dashboard',[AdminController::class,'index'])->name('admin.dashboard');
 Route::get('/fetch-judul/{id}', [AdminController::class, 'fetchJudul'])->name('fetch-judul');
+Route::post('/approve-action', [AdminController::class, 'approveAction'])->name('approveAction');
+// Route::get('/get-approval-status/{id_pengaduan}', [AdminController::class, 'getApprovalStatus']);
+
+
 
 
 
